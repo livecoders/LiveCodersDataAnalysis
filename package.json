@@ -13,7 +13,11 @@
     "node-fetch": "^2.6.0"
   },
   "scripts": {
+    "test": "lambda-local --lambda-path index.js --event-path event.json --environment '{\"NODE_ENV\": \"DEV\"}'",
     "clean": "rm func.zip",
     "deploy": "zip -r func.zip node_modules index.js package.json && aws lambda update-function-code --function-name SaveOnlineLiveCoders --zip-file fileb://func.zip"
+  },
+  "devDependencies": {
+    "lambda-local": "^1.7.4"
   }
 }

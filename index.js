@@ -2,7 +2,7 @@ const fetch = require("node-fetch")
 const moment = require("moment")
 
 const AWS = require("aws-sdk")
-AWS.config.update({ region: "us-east-1" })
+AWS.config.update({ region: "us-east-2" })
 const ddb = new AWS.DynamoDB({ apiVersion: "2012-08-10" })
 
 require("dotenv").config()
@@ -10,6 +10,7 @@ require("dotenv").config()
 const twitchClientID = process.env.CLIENT_ID
 const twitchClientSecret = process.env.CLIENT_SECRET
 const team = process.env.TEAM_NAME
+const dbName = process.env.DB_NAME
 
 const { getTwitchAccessToken } = require("@jlengstorf/get-twitch-oauth")
 
@@ -76,7 +77,7 @@ exports.handler = async function () {
 
       const params = {
         RequestItems: {
-          LiveCodersStreamPoints: onlineUsersEntries.map((user) => ({
+          [dbName]: onlineUsersEntries.map((user) => ({
             PutRequest: {
               Item: {
                 username: { S: user.user },
